@@ -6,10 +6,8 @@ import RAF from '../utils/RAF'
 import config from '../utils/config'
 import MyGUI from '../utils/MyGUI'
 
-import SpherePillardsClass from './SpherePillardsClass'
-
-import simpleFrag from '../shaders/simple.frag'
-import simpleVert from '../shaders/simple.vert'
+import SpherePillards from './SpherePillardsClass'
+import Floor from './FloorClass'
 
 class MainThreeScene {
     constructor() {
@@ -38,15 +36,9 @@ class MainThreeScene {
         this.controls.maxDistance = 1500
         this.controls.minDistance = 0
 
-        //DUMMY CUBE + SIMPLE GLSL SHADER LINKAGE
-        const shaderMat = new THREE.ShaderMaterial({
-            vertexShader: simpleVert,
-            fragmentShader: simpleFrag,
-        })
-        const cube = new THREE.Mesh(new THREE.BoxGeometry(), shaderMat)
-        this.scene.add(cube)
 
-        SpherePillardsClass.init(this.scene)
+        SpherePillards.init(this.scene)
+        Floor.init(this.scene)
 
         MyGUI.hide()
         if (config.myGui)
