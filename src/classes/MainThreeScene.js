@@ -40,7 +40,7 @@ class MainThreeScene {
 
         SpherePillards.init(this.scene)
         Floor.init(this.scene)
-        Spectrum.init(this.scene)
+       // Spectrum.init(this.scene)
 
         MyGUI.hide()
         if (config.myGui)
