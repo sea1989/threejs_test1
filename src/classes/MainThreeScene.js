@@ -8,6 +8,7 @@ import MyGUI from '../utils/MyGUI'
 
 import SpherePillards from './SpherePillardsClass'
 import Floor from './FloorClass'
+import Spectrum from './SpectrumClass'
 
 class MainThreeScene {
     constructor() {
@@ -30,7 +31,7 @@ class MainThreeScene {
 
         //CAMERA AND ORBIT CONTROLLER
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-        this.camera.position.set(0, 0, 5)
+        this.camera.position.set(0, 0, 10)
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
         this.controls.enabled = config.controls
         this.controls.maxDistance = 1500
@@ -39,6 +40,7 @@ class MainThreeScene {
 
         SpherePillards.init(this.scene)
         Floor.init(this.scene)
+        Spectrum.init(this.scene)
 
         MyGUI.hide()
         if (config.myGui)
@@ -51,6 +53,7 @@ class MainThreeScene {
 
     update() {
         this.renderer.render(this.scene, this.camera);
+        SpherePillards.update()
     }
 
     resizeCanvas() {
