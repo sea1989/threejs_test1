@@ -17,13 +17,20 @@ class Spectrum {
         this.uniforms = {
             uMatCap: {
                 value: this.textureLoader.load('assets/textures/blackMetal.png')
+            },
+            uSpecterSize: {
+                value: 0.8
+            },
+            uTime: {
+                value: 0
             }
         }
 
         this.shaderMat = new THREE.ShaderMaterial({
             fragmentShader: spectrumFrag,
             vertexShader: spectrumVert,
-            uniforms: this.uniforms
+            uniforms: this.uniforms,
+            transparent: true
         })
         this.modelLoader.load('./assets/models/spectrum.glb', (glb) => {
 
@@ -31,7 +38,7 @@ class Spectrum {
                 if (child instanceof THREE.Mesh)
                     child.material = this.shaderMat
 
-                child.scale.multiplyScalar(1.5)
+                child.scale.multiplyScalar(1.7)
                 child.position.y = -1.2
             })
             this.scene.add(glb.scene)
@@ -39,7 +46,7 @@ class Spectrum {
     }
 
     update() {
-
+        this.uniforms.uTime.value += 1
     }
 
     bind() {
