@@ -24,7 +24,8 @@ class SoundReactor {
         this.audioSource.connect(this.analyser);
         this.audioSource.connect(this.ctx.destination);
         this.fdata = new Uint8Array(this.analyser.frequencyBinCount);
-        this.audio.currentTime = 41;
+        this.audio.currentTime = 41
+
     }
 
     play() {
@@ -36,12 +37,12 @@ class SoundReactor {
     pause() {
         this.audio.pause()
         this.playFlag = false
-        RAF.subscribe('audioReactorUpdate')
+        RAF.unsubscribe('audioReactorUpdate')
+
     }
 
     update() {
         this.analyser.getByteFrequencyData(this.fdata);
-
     }
 
     bind() {
