@@ -30,15 +30,22 @@ class MainThreeScene {
         container.appendChild(this.renderer.domElement)
 
         //MAIN SCENE INSTANCE
+        const color = new THREE.Color(0x151515)
+        const fog = new THREE.Fog(color, 15, 28)
         this.scene = new THREE.Scene()
+        this.scene.fog = fog
+        this.scene.background = color
+
 
         //CAMERA AND ORBIT CONTROLLER
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
         this.camera.position.set(0, 0, 10)
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
         this.controls.enabled = false
-        this.controls.maxDistance = 1500
-        this.controls.minDistance = 0
+        this.controls.maxDistance = 40
+        this.controls.minDistance = 3
+        this.controls.minPolarAngle = 0; 
+        this.controls.maxPolarAngle = Math.PI / 2.6 + 0.3;
         CamParallax.init(this.camera)
 
         SpherePillards.init(this.scene)
@@ -73,6 +80,7 @@ class MainThreeScene {
 
     update() {
         this.renderer.render(this.scene, this.camera);
+        this.scene.rotateY(0.0015)
         SpherePillards.update()
         Spectrum.update()
         ParticleSystem.update()

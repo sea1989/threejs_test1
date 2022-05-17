@@ -19,6 +19,9 @@ class CamParallax {
     onMouseMove(e) {
         this.mousePos.x = (e.clientX - window.innerWidth / 2) * this.params.intensity
         this.mousePos.y = (e.clientY - window.innerHeight / 2) * this.params.intensity
+        const yLimit = -3.4
+        if (this.mousePos.y < yLimit)
+            this.mousePos.y = yLimit
     }
 
     update() {

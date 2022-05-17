@@ -18,7 +18,8 @@ class Floor {
                 if (child instanceof THREE.Mesh)
                     this.floor = child
             })
-            this.floor.translateY(-3)
+            this.floor.translateY(-4)
+            this.floor.scale.multiplyScalar(1.5)
             this.scene.add(this.floor)
         })
     }
