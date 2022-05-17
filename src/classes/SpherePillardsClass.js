@@ -1,5 +1,7 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
+import SoundReactor from './SoundReactor'
+import { SourceMap } from 'magic-string'
 
 class SpherePillardsClass {
     constructor() {
@@ -91,10 +93,19 @@ class SpherePillardsClass {
     }
 
     update() {
-        let i = 0
-        while (i < this.pillards.children.length) {
-            this.pillards.children[i].children[0].position.y = (Math.sin(Date.now() * 0.001 + this.pillards.children[i].position.x) + 1) * 1.5
-            i++
+        if (SoundReactor.playFlag) {
+            let i = 0
+            while (i < this.pillards.children.length) {
+                this.pillards.children[i].children[0].position.y = SoundReactor.fdata[i] / 255 * 4
+                i++
+            }
+        } else {
+            let i = 0
+            while (i < this.pillards.children.length) {
+                this.pillards.children[i].children[0].position.y = (Math.sin(Date.now() * 0.001 + this.pillards.children[i].position.x) + 1) * 1.5
+                i++
+            }
+
         }
 
     }

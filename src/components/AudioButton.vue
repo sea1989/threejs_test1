@@ -40,7 +40,7 @@ export default {
   left: 0;
 
   button {
-    background: red;
+    background: #8358FF;
     padding: 20px;
     width: 100px;
     height: 50px;

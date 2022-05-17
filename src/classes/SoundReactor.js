@@ -9,6 +9,7 @@ class SoundReactor {
         this.analyser
         this.fdata
         this.url = audioUrl
+        this.playFlag = false
 
         this.bind()
     }
@@ -23,15 +24,18 @@ class SoundReactor {
         this.audioSource.connect(this.analyser);
         this.audioSource.connect(this.ctx.destination);
         this.fdata = new Uint8Array(this.analyser.frequencyBinCount);
+        this.audio.currentTime = 41;
     }
 
     play() {
         this.audio.play()
+        this.playFlag = true
         RAF.subscribe('audioReactorUpdate', this.update)
     }
 
     pause() {
         this.audio.pause()
+        this.playFlag = false
         RAF.subscribe('audioReactorUpdate')
     }
 
