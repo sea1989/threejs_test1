@@ -3,13 +3,17 @@ import * as THREE from 'three'
 import SoundReactor from './SoundReactor'
 import MyGUI from '../utils/MyGUI'
 
+import LoadingController from './LoadingController'
+
 class SpherePillardsClass {
     constructor() {
         this.bind()
-        this.modelLoader = new GLTFLoader()
-        this.texLoader = new THREE.TextureLoader()
+        this.modelLoader = new GLTFLoader(LoadingController)
+        this.texLoader = new THREE.TextureLoader(LoadingController)
         this.params = {
-            waveSpeed: 1
+            waveSpeed: 1,
+            subDiv: 3,
+            pillardSize: .2
         }
     }
 
@@ -44,19 +48,37 @@ class SpherePillardsClass {
 
         })
 
+        const sphereFolder = MyGUI.addFolder('Sphere Pillards')
+        sphereFolder.open()
+        sphereFolder.add(this.params, 'waveSpeed', 0.001, 3).name('Wave Speed')
+        sphereFolder.add(this.params, 'subDiv', 1, 5).step(1).name('Ico Subdivisions').onChange(this.computePositions)
+        sphereFolder.add(this.params, 'pillardSize', 0.01, 1).name('Pill Size').onChange(this.computePositions)
 
-        MyGUI.add(this.params, 'waveSpeed')
     }
 
     computePositions() {
 
-        const sphereGeom = new THREE.IcosahedronGeometry(2, 3)
+        let ico
+
+        this.scene.traverse(child => {
+            if (child.name == 'ico') {
+                ico = child
+            }
+        })
+
+        if (ico)
+            this.scene.remove(ico)
+
+        const sphereGeom = new THREE.IcosahedronGeometry(2, this.params.subDiv)
         const sphereMat = this.gMatCap
         const sphere = new THREE.Mesh(sphereGeom, sphereMat)
+        sphere.name = 'ico'
         // const sphere = new THREE.Mesh(sphereGeom, new THREE.MeshNormalMaterial({
         //     wireframe: true
         // }))
         this.scene.add(sphere)
+
+        this.pillards.clear()
 
         let verArray = []
         for (let i = 0; i < sphereGeom.attributes.position.array.length; i += 3) {
@@ -77,7 +99,6 @@ class SpherePillardsClass {
             for (let j = 0; j < pillPos.length; j++) {
                 if (pillPos[j].x == verArray[i].x && pillPos[j].y == verArray[i].y && pillPos[j].z == verArray[i].z) {
                     existsFlag = true
-                    console.log('hey')
                 }
             }
 
@@ -90,7 +111,7 @@ class SpherePillardsClass {
                 const c = this.pillard.clone()
                 const posVec = new THREE.Vector3(verArray[i].x, verArray[i].y, verArray[i].z)
                 c.position.copy(posVec)
-                c.scale.multiplyScalar(.2)
+                c.scale.multiplyScalar(this.params.pillardSize)
                 c.quaternion.setFromUnitVectors(this.upVec, posVec.normalize())
                 this.pillards.add(c)
             }
@@ -117,7 +138,7 @@ class SpherePillardsClass {
     }
 
     bind() {
-
+        this.computePositions = this.computePositions.bind(this)
     }
 }
 

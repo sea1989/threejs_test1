@@ -1,10 +1,12 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
 
+import LoadingController from './LoadingController'
+
 class Floor {
     constructor() {
         this.bind()
-        this.modelLoader = new GLTFLoader()
+        this.modelLoader = new GLTFLoader(LoadingController)
     }
 
     init(scene) {

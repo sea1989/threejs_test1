@@ -1,14 +1,18 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
 
+import MyGUI from '../utils/MyGUI'
+
 import spectrumFrag from '../shaders/spectrum.frag'
 import spectrumVert from '../shaders/spectrum.vert'
+
+import LoadingController from './LoadingController'
 
 class Spectrum {
     constructor() {
         this.bind()
-        this.modelLoader = new GLTFLoader()
-        this.textureLoader = new THREE.TextureLoader()
+        this.modelLoader = new GLTFLoader(LoadingController)
+        this.textureLoader = new THREE.TextureLoader(LoadingController)
     }
 
     init(scene) {
@@ -22,6 +26,9 @@ class Spectrum {
                 value: 0.8
             },
             uWaveBorder: {
+                value: 0.3
+            },
+            uWaveSpeed: {
                 value: 0.1
             },
             uBorderColor: {
@@ -31,6 +38,12 @@ class Spectrum {
                 value: 0
             }
         }
+
+        const shaderFolder = MyGUI.addFolder("Spectrum Folder")
+        shaderFolder.open()
+        shaderFolder.add(this.uniforms.uSpecterSize, "value", -1, 1).name('Spectrum Size')
+        shaderFolder.add(this.uniforms.uWaveBorder, "value", 0, 1).name('Border Size')
+        shaderFolder.add(this.uniforms.uWaveSpeed, "value", 0, 1).name('Wave Speed')
 
         this.shaderMat = new THREE.ShaderMaterial({
             fragmentShader: spectrumFrag,
