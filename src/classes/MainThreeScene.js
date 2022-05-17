@@ -9,6 +9,7 @@ import MyGUI from '../utils/MyGUI'
 import SpherePillards from './SpherePillardsClass'
 import Floor from './FloorClass'
 import Spectrum from './SpectrumClass'
+import ParticleSystem from './ParticleSystem'
 
 class MainThreeScene {
     constructor() {
@@ -41,6 +42,7 @@ class MainThreeScene {
         SpherePillards.init(this.scene)
         Floor.init(this.scene)
         Spectrum.init(this.scene)
+        ParticleSystem.init(this.scene)
 
         MyGUI.hide()
         if (config.myGui)
@@ -55,6 +57,7 @@ class MainThreeScene {
         this.renderer.render(this.scene, this.camera);
         SpherePillards.update()
         Spectrum.update()
+        ParticleSystem.update()
     }
 
     resizeCanvas() {

@@ -1,13 +1,16 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from 'three'
 import SoundReactor from './SoundReactor'
-import { SourceMap } from 'magic-string'
+import MyGUI from '../utils/MyGUI'
 
 class SpherePillardsClass {
     constructor() {
         this.bind()
         this.modelLoader = new GLTFLoader()
         this.texLoader = new THREE.TextureLoader()
+        this.params = {
+            waveSpeed: 1
+        }
     }
 
     init(scene) {
@@ -40,6 +43,9 @@ class SpherePillardsClass {
             this.computePositions()
 
         })
+
+
+        MyGUI.add(this.params, 'waveSpeed')
     }
 
     computePositions() {
@@ -102,7 +108,7 @@ class SpherePillardsClass {
         } else {
             let i = 0
             while (i < this.pillards.children.length) {
-                this.pillards.children[i].children[0].position.y = (Math.sin(Date.now() * 0.001 + this.pillards.children[i].position.x) + 1) * 1.5
+                this.pillards.children[i].children[0].position.y = (Math.sin(Date.now() * 0.01 * this.params.waveSpeed + this.pillards.children[i].position.x) + 1) * 1.5
                 i++
             }
 
